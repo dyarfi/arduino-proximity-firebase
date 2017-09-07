@@ -123,11 +123,11 @@ h3 {
     text-align: left;
 }
 #sign-in-button {
-    margin-left: 10px;
+    /*margin-left: 10px;*/
     color: inherit;
 }
 #sign-out-button {
-    margin: 10px;
+    /*margin: 10px;*/
     color: inherit;
 }
 .mdl-button .material-icons {
@@ -175,8 +175,8 @@ h3 {
     }
 }
 #sign-out-button {
-    right: 0;
-    position: absolute;
+    /*right: 0;*/
+    /*position: absolute;*/
 }
 
 /* Drawer */

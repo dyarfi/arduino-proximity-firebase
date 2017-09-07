@@ -18,6 +18,8 @@
 // Shortcuts to DOM Elements.
 var recentPostsSection = document.getElementById('recent-posts-list');
 var recentMenuButton = document.getElementById('menu-recent');
+var signInButton = document.getElementById('sign-in-button');
+var signOutButton = document.getElementById('sign-out-button');
 var listeningFirebaseRefs = [];
 
 /**
@@ -25,15 +27,16 @@ var listeningFirebaseRefs = [];
  */
  //data.key, data.val().message, data.val().timestamp
 //function createPostElement(postId, title, text, author, authorId, authorPic) {
-function createPostElement(dataKey, dataMessage, dataTimestamp) {
+function createPostElement(dataKey, dataType, dataMessage, dataTimestamp) {
   //alert(dataKey);
   //var uid = firebase.auth().currentUser.uid;
-
+  var css = (dataType == 'relay_off') ? 'green' : 'red';
+  var css = (dataType == 'relay_proximity') ? 'light-blue' : css; 
   var html =
       '<div class="post post-' + dataKey + ' mdl-cell mdl-cell--12-col ' +
                   'mdl-cell--6-col-tablet mdl-cell--4-col-desktop mdl-grid mdl-grid--no-spacing">' +
         '<div class="mdl-card mdl-shadow--2dp">' +
-          '<div class="mdl-card__title mdl-color--light-blue-600 mdl-color-text--white">' +
+          '<div class="mdl-card__title mdl-color--'+css+'-600 mdl-color-text--white">' +
             '<h4 class="mdl-card__title-text"></h4>' +
           '</div>' +
           '<div class="header">' +
@@ -88,7 +91,7 @@ function startDatabaseQueries() {
     postsRef.on('child_added', function(data) {
       var containerElement = sectionElement.getElementsByClassName('posts-container')[0];
       containerElement.insertBefore(
-          createPostElement(data.key, data.val().message, data.val().timestamp),
+          createPostElement(data.key, data.val().type, data.val().message, data.val().timestamp),
           containerElement.firstChild);
     });
   };
@@ -140,6 +143,16 @@ window.addEventListener('load', function() {
   recentMenuButton.onclick = function() {
     showSection(recentPostsSection, recentMenuButton);
   };
+
+  // Bind Sign in button.
+  signInButton.addEventListener('click', function() {
+    firebase.database().ref('lights').set('on');
+  });
+
+  // Bind Sign out button.
+  signOutButton.addEventListener('click', function() {
+    firebase.database().ref('lights').set('off');
+  });
 
   recentMenuButton.onclick();
 }, false);
