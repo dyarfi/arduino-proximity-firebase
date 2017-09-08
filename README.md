@@ -12,12 +12,13 @@ Change your firebase config in index.html
 <script>
 // Initialize Firebase
 var config = {
-  	apiKey: "AIzaSyCnCCmWUR9vVDSMxmlcbuEOKGV_jekKEQw",
-  	authDomain: "iot-arduino-827cb.firebaseapp.com",
-  	databaseURL: "https://iot-arduino-827cb.firebaseio.com",
-  	projectId: "iot-arduino-827cb",
-  	storageBucket: "iot-arduino-827cb.appspot.com",
-  	messagingSenderId: "971124207623"
+  	apiKey: "xxxxxxxxxxxxxxxxxx",
+  	authDomain: "xxxxxxxxxxxxxxxxxx.firebaseapp.com",
+  	databaseURL: "https://xxxxxxxxxxxxxxxxxx.firebaseio.com",
+  	projectId: "xxxxxxxxxxxxxxxxxx",
+    // Optional
+  	storageBucket: "xxxxxxxxxxxxxxxxxx.appspot.com",  
+  	messagingSenderId: "xxxxxxxxxxxxxxxxxx"
 };
 firebase.initializeApp(config);
 </script>
