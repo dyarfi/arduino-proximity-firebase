@@ -25,11 +25,7 @@ var listeningFirebaseRefs = [];
 /**
  * Creates a post element.
  */
- //data.key, data.val().message, data.val().timestamp
-//function createPostElement(postId, title, text, author, authorId, authorPic) {
 function createPostElement(dataKey, dataType, dataMessage, dataTimestamp) {
-  //alert(dataKey);
-  //var uid = firebase.auth().currentUser.uid;
   var css = (dataType == 'relay_off') ? 'green' : 'red';
   var css = (dataType == 'relay_proximity') ? 'light-blue' : css; 
   var html =
@@ -119,13 +115,8 @@ function cleanupUi() {
  */
 function showSection(sectionElement, buttonElement) {
   recentPostsSection.style.display = 'none';
-  //userPostsSection.style.display = 'none';
-  //topUserPostsSection.style.display = 'none';
-  //addPost.style.display = 'none';
   recentMenuButton.classList.remove('is-active');
-  //myPostsMenuButton.classList.remove('is-active');
-  //myTopPostsMenuButton.classList.remove('is-active');
-
+  
   if (sectionElement) {
     sectionElement.style.display = 'block';
   }
@@ -136,23 +127,38 @@ function showSection(sectionElement, buttonElement) {
 
 // Bindings on load.
 window.addEventListener('load', function() {
-    //cleanupUi();
+    cleanupUi();
     startDatabaseQueries();
 
-  // Bind menu buttons.  
-  recentMenuButton.onclick = function() {
-    showSection(recentPostsSection, recentMenuButton);
-  };
+    // Bind menu buttons.  
+    recentMenuButton.onclick = function() {
+        showSection(recentPostsSection, recentMenuButton);
+    };
 
-  // Bind Sign in button.
-  signInButton.addEventListener('click', function() {
-    firebase.database().ref('lights').set('on');
-  });
+    // stores the lights default database setup
+    var light_def = firebase.database().ref('lights');
+    light_def.on('value', function(snapshot) {
+        // Check defaul value
+        if(snapshot.val()=='on') {
+            signInButton.classList.add('mdl-button--colored');
+        } else {
+            signOutButton.classList.add('mdl-button--colored');
+        }
+    });
 
-  // Bind Sign out button.
-  signOutButton.addEventListener('click', function() {
-    firebase.database().ref('lights').set('off');
-  });
+    // Bind Sign in button.
+    signInButton.addEventListener('click', function() {
+        firebase.database().ref('lights').set('on');
+        signOutButton.classList.remove('mdl-button--colored');
+        this.classList.add('mdl-button--colored');
+    });
 
-  recentMenuButton.onclick();
+    // Bind Sign out button.
+    signOutButton.addEventListener('click', function() {
+        firebase.database().ref('lights').set('off');    
+        signInButton.classList.remove('mdl-button--colored');
+        this.classList.add('mdl-button--colored');
+    });
+
+    recentMenuButton.onclick();
 }, false);
