@@ -139,9 +139,11 @@ window.addEventListener('load', function() {
     var light_def = firebase.database().ref('lights');
     light_def.on('value', function(snapshot) {
         // Check defaul value
-        if(snapshot.val()=='on') {
+        if(snapshot.val()=='on') {            
+            signOutButton.classList.remove('mdl-button--colored');
             signInButton.classList.add('mdl-button--colored');
-        } else {
+        } else {            
+            signInButton.classList.remove('mdl-button--colored');
             signOutButton.classList.add('mdl-button--colored');
         }
     });
