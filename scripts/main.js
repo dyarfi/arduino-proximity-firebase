@@ -20,6 +20,9 @@ var recentPostsSection = document.getElementById('recent-posts-list');
 var recentMenuButton = document.getElementById('menu-recent');
 var signInButton = document.getElementById('sign-in-button');
 var signOutButton = document.getElementById('sign-out-button');
+var tempSign = document.getElementById('stemp');
+var humdSign = document.getElementById('shumi');
+var heatSign = document.getElementById('sheat');
 var listeningFirebaseRefs = [];
 
 /**
@@ -138,7 +141,7 @@ window.addEventListener('load', function() {
     // stores the lights default database setup
     var light_def = firebase.database().ref('lights');
     light_def.on('value', function(snapshot) {
-        // Check defaul value
+        // Check default value
         if(snapshot.val()=='on') {            
             signOutButton.classList.remove('mdl-button--colored');
             signInButton.classList.add('mdl-button--colored');
@@ -160,6 +163,44 @@ window.addEventListener('load', function() {
         firebase.database().ref('lights').set('off');    
         signInButton.classList.remove('mdl-button--colored');
         this.classList.add('mdl-button--colored');
+    });
+
+    var ts_def = firebase.database().ref('weather/temperature'),
+        hs_def = firebase.database().ref('weather/humidity'),
+        his_def = firebase.database().ref('weather/heat');
+        
+    ts_def.on('value', function(snapshot) {
+        // Check default value
+        if(snapshot.val()!=0) {        
+            // Create the DOM element from the HTML.
+            tempSign.getElementsByClassName('dsensor')[0].innerHTML = snapshot.val()+'&deg; ';
+        } else {
+            tempSign.style.display = 'none';
+            humdSign.style.display = 'none';
+            heatSign.style.display = 'none';
+        }
+    });
+
+    hs_def.on('value', function(snapshot) {
+        // Check default value
+        if(snapshot.val()!=0) {            
+            humdSign.getElementsByClassName('dsensor')[0].innerHTML = snapshot.val();
+        } else {
+            tempSign.style.display = 'none';
+            humdSign.style.display = 'none';
+            heatSign.style.display = 'none';
+        }
+    });
+
+    his_def.on('value', function(snapshot) {
+        // Check default value
+        if(snapshot.val()!=0) {
+            heatSign.getElementsByClassName('dsensor')[0].innerHTML = snapshot.val();
+        } else {
+            tempSign.style.display = 'none';
+            humdSign.style.display = 'none';
+            heatSign.style.display = 'none';
+        }
     });
 
     recentMenuButton.onclick();
